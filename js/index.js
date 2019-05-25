@@ -1,17 +1,26 @@
-function firstByClass(cls) {
-    return document.getElementsByClassName(cls)[0];
+function getElement(param){
+    var result = document.getElementById(param);
 }
 
-const radius = 22;
+var hourHand = getElement('hour_hand');
+var minuteHand = getElement('minute_hand');
+var secondHand = getElement('second_hand');
 
-function set(n) {
-    const element = firstByClass('hour_mark_'+n);
-    const rads = ((n * 30 - 90) * Math.PI)/180;
-    const x = Math.cos(rads) * radius;
-    const y = Math.sin(rads) * radius;
+function initClock(){
+    var date = new Date();
+    var hour = date.getHours()%12;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
 
-    element.style.transform = `translateX(${x - 1}vh) translateY(${y - 2}vh)`
-}
+    var hourDeg = (hour * 30) + (0.5 * minute) ;
+    var minuteDeg = (minute * 6) + (0.1 * second);
+    var secondDeg = second * 6;
 
-for (let n = 1; n < 13; n++) 
-set(n);
+    hourHand.style.transform = 'rotate(' + hourDeg + 'deg)';
+    minuteHand.style.transform = 'rotate(' + minuteDeg + 'deg)';
+    secondHand.style.transform = 'rotate(' + secondDeg + 'deg)';    
+
+    setTimeout(initClock, 1000);
+};
+
+initClock();
